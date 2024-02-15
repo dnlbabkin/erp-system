@@ -6,30 +6,36 @@ import (
 )
 
 var (
-	queryInsertUser        = "INSERT INTO users (first_name, last_name, third_name, password) VALUES (?, ?, ?, ?);"
+	//queryInsertUser        = "INSERT INTO users (first_name, last_name, third_name, password) VALUES (?, ?, ?, ?);"
+	queryInsertUser        = "insert into users (first_name, last_name, third_name, password) values ($1, $2, $3, $4)"
 	queryGetUserByLastName = "SELECT id, first_name, last_name, third_name, password FROM users WHERE last_name=?;"
 	queryGetUserByID       = "SELECT id, first_name, last_name, third_name FROM users WHERE id=?;"
 )
 
 func (user *User) Save() *errors.RestErr {
-	stmt, err := users_db.Client.Prepare(queryInsertUser)
+	//stmt, err := users_db.Client.Prepare(queryInsertUser)
+	//if err != nil {
+	//	return errors.NewInternalServerError("database error")
+	//}
+
+	stmt := users_db.Client.QueryRow(queryInsertUser, user.FirstName, user.LastName, user.ThirdName, user.Password)
+	err := stmt.Scan(&user.ID, &user.FirstName, &user.LastName, &user.ThirdName, &user.Password)
 	if err != nil {
-		return errors.NewInternalServerError("database error")
+		panic(err)
 	}
+	//defer stmt.Close()
+	//
+	//insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.ThirdName, user.Password)
+	//if saveErr != nil {
+	//	return errors.NewInternalServerError("database error")
+	//}
 
-	defer stmt.Close()
+	//userID, err := insertResult.LastInsertId()
+	//if err != nil {
+	//	return errors.NewInternalServerError("database error")
+	//}
 
-	insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.ThirdName, user.Password)
-	if saveErr != nil {
-		return errors.NewInternalServerError("database error")
-	}
-
-	userID, err := insertResult.LastInsertId()
-	if err != nil {
-		return errors.NewInternalServerError("database error")
-	}
-
-	user.ID = userID
+	//user.ID = userID
 
 	return nil
 }

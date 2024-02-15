@@ -9,13 +9,17 @@ import (
 
 var (
 	Client   *sql.DB
+	host     = "localhost"
+	port     = 5432
 	user     = "postgres"
 	dbname   = "postgres"
 	password = "postgres"
 )
 
 func init() {
-	connStr := fmt.Sprintf("postgres://%s:%s@localhost/%s?sslmode=disable", user, password, dbname)
+	connStr := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
 
 	Client, err := sql.Open("postgres", connStr)
 	if err != nil {
