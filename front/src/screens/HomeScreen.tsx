@@ -1,10 +1,14 @@
 import React from "react";
 
-const HomeScreen = () => {
-    return (
-        <h1>
-            Тут чета будет
-        </h1>
+interface Props {
+    name: String
+}
+
+const HomeScreen = ({name}: Props) => {
+    return name ? (
+        <h1>name</h1>
+    ) : (
+        <h1>Тут чета будет</h1>
     )
 }
 
