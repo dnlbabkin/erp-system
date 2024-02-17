@@ -6,68 +6,43 @@ import (
 )
 
 var (
-	//queryInsertUser        = "INSERT INTO users (first_name, last_name, third_name, password) VALUES (?, ?, ?, ?);"
-	queryInsertUser        = "insert into users (first_name, last_name, third_name, password) values ($1, $2, $3, $4)"
-	queryGetUserByLastName = "SELECT id, first_name, last_name, third_name, password FROM users WHERE last_name=?;"
-	queryGetUserByID       = "SELECT id, first_name, last_name, third_name FROM users WHERE id=?;"
+	queryInsertUser     = "INSERT INTO users (name, second_name, third_name, password) VALUES ($1, $2, $3, $4)"
+	queryGetUserByNames = "SELECT id, first_name, last_name, third_name, password FROM users WHERE (name=?) AND (last_name=?) AND (third_name=?);"
+	queryGetUserByID    = "SELECT id, first_name, last_name, third_name FROM users WHERE id=?;"
 )
 
 func (user *User) Save() *errors.RestErr {
-	//stmt, err := users_db.Client.Prepare(queryInsertUser)
-	//if err != nil {
-	//	return errors.NewInternalServerError("database error")
-	//}
+	client := users_db.InitDB()
 
-	stmt := users_db.Client.QueryRow(queryInsertUser, user.FirstName, user.LastName, user.ThirdName, user.Password)
-	err := stmt.Scan(&user.ID, &user.FirstName, &user.LastName, &user.ThirdName, &user.Password)
+	b, err := client.Query(queryInsertUser, user.Name, user.LastName, user.ThirdName, user.Password)
 	if err != nil {
 		panic(err)
 	}
-	//defer stmt.Close()
-	//
-	//insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.ThirdName, user.Password)
-	//if saveErr != nil {
-	//	return errors.NewInternalServerError("database error")
-	//}
 
-	//userID, err := insertResult.LastInsertId()
-	//if err != nil {
-	//	return errors.NewInternalServerError("database error")
-	//}
-
-	//user.ID = userID
+	client.Close()
+	b.Close()
 
 	return nil
 }
 
-func (user *User) GetByLastName() *errors.RestErr {
-	stmt, err := users_db.Client.Prepare(queryGetUserByLastName)
-	if err != nil {
-		return errors.NewInternalServerError("invalid last name")
-	}
+func (user *User) GetByNames() *errors.RestErr {
+	client := users_db.InitDB()
 
-	defer stmt.Close()
+	client.QueryRow(queryGetUserByNames, user.Name, user.LastName, user.ThirdName).
+		Scan(&user.ID, &user.Name, &user.LastName, &user.ThirdName, &user.Password)
 
-	result := stmt.QueryRow(user.LastName)
-	if err := result.Scan(&user.ID, &user.FirstName, &user.LastName, &user.ThirdName, &user.Password); err != nil {
-		return errors.NewInternalServerError("database error")
-	}
+	client.Close()
 
 	return nil
 }
 
 func (user *User) GetByID() *errors.RestErr {
-	stmt, err := users_db.Client.Prepare(queryGetUserByID)
-	if err != nil {
-		return errors.NewInternalServerError("invalid id")
-	}
+	client := users_db.InitDB()
 
-	defer stmt.Close()
+	client.QueryRow(queryGetUserByID, user.ID).
+		Scan(&user.ID, &user.Name, &user.LastName, &user.ThirdName)
 
-	result := stmt.QueryRow(user.LastName)
-	if err := result.Scan(&user.ID, &user.FirstName, &user.LastName, &user.ThirdName); err != nil {
-		return errors.NewInternalServerError("database error")
-	}
+	client.Close()
 
 	return nil
 }

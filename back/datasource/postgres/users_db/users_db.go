@@ -16,7 +16,7 @@ var (
 	password = "postgres"
 )
 
-func init() {
+func InitDB() *sql.DB {
 	connStr := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
@@ -32,4 +32,5 @@ func init() {
 
 	log.Println("database successfully configured")
 
+	return Client
 }

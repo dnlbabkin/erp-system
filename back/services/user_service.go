@@ -3,20 +3,12 @@ package services
 import (
 	"back/domain/users"
 	"back/utils/errors"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func CreateUser(user users.User) (*users.User, *errors.RestErr) {
 	if err := user.Validate(); err != nil {
 		return nil, err
 	}
-
-	pwSlice, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
-	if err != nil {
-		return nil, errors.NewBadRequestError("failed to encrypt the password")
-	}
-
-	user.Password = string(pwSlice[:])
 
 	if err := user.Save(); err != nil {
 		return nil, err
@@ -27,22 +19,18 @@ func CreateUser(user users.User) (*users.User, *errors.RestErr) {
 
 func GetUser(user users.User) (*users.User, *errors.RestErr) {
 	result := &users.User{
-		FirstName: user.FirstName,
+		Name:      user.Name,
 		LastName:  user.LastName,
 		ThirdName: user.ThirdName,
 	}
 
-	if err := result.GetByLastName(); err != nil {
+	if err := result.GetByNames(); err != nil {
 		return nil, err
-	}
-
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(user.Password)); err != nil {
-		return nil, errors.NewBadRequestError("failed to encrypt the password")
 	}
 
 	resultWp := &users.User{
 		ID:        result.ID,
-		FirstName: result.FirstName,
+		Name:      result.Name,
 		LastName:  result.LastName,
 		ThirdName: result.ThirdName,
 	}
