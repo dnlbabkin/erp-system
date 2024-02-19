@@ -19,17 +19,16 @@ func CreateUser(user users.User) (*users.User, *errors.RestErr) {
 
 func GetUser(user users.User) (*users.User, *errors.RestErr) {
 	result := &users.User{
-		Name:      user.Name,
-		LastName:  user.LastName,
-		ThirdName: user.ThirdName,
+		UID:      user.UID,
+		Password: user.Password,
 	}
 
-	if err := result.GetByNames(); err != nil {
+	if err := result.GetByUIDAndByPassword(); err != nil {
 		return nil, err
 	}
 
 	resultWp := &users.User{
-		ID:        result.ID,
+		UID:       result.UID,
 		Name:      result.Name,
 		LastName:  result.LastName,
 		ThirdName: result.ThirdName,
@@ -39,7 +38,7 @@ func GetUser(user users.User) (*users.User, *errors.RestErr) {
 }
 
 func GetUserByID(userId int64) (*users.User, *errors.RestErr) {
-	result := &users.User{ID: userId}
+	result := &users.User{UID: userId}
 
 	if err := result.GetByID(); err != nil {
 		return nil, err

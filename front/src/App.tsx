@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
-import { Container } from 'react-bootstrap';
+import { Container, Modal } from 'react-bootstrap';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen';
 import SignupScreen from './screens/SignupScreen';

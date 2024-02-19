@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useNavigate } from "react-router-dom";
 
@@ -8,12 +8,23 @@ const SignupScreen = () => {
     const [lastName, setLastName] = useState('')
     const [thirdName, setThirdName] = useState('')
     const [password, setPassword] = useState('')
-    let navigate = useNavigate();
+    const [uid, setUid] = useState<any>()
+    const [show, setShow] = useState(false)
+    let navigate = useNavigate()
+
+    const handleClose = () => {
+        setShow(false)
+        navigator.clipboard.writeText(uid)
+
+        navigate("/login")
+    }
+    const handleShow = () => setShow(true) 
+
 
     const submitHandler = async(e: SyntheticEvent) => {
         e.preventDefault()
         
-        await fetch('http://localhost:8080/api/register', {
+        const response = await fetch('http://localhost:8080/api/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -24,10 +35,25 @@ const SignupScreen = () => {
             })
         })
 
-        navigate('/login')
+        const data = await response.json()
+        setUid(data.uid)
+        console.log(uid)
+
     }   
     
     return (
+        <>
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+            <Modal.Title>Идентификационный id</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Скопируйте: {uid}</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Скопировать
+                </Button>
+            </Modal.Footer>
+        </Modal>
         <FormContainer>
             <Form onSubmit={submitHandler}>
             <Form.Group controlId="name" className="my-3">
@@ -62,11 +88,12 @@ const SignupScreen = () => {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={handleShow}>
                     Создать пользователя
                 </Button>
             </Form>
         </FormContainer>
+        </>
     )
 }
 

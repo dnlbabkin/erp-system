@@ -50,7 +50,7 @@ func Login(c *gin.Context) {
 
 	standardClaims := &jwt.RegisteredClaims{
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
-		Issuer:    strconv.Itoa(int(result.ID)),
+		Issuer:    strconv.Itoa(int(result.UID)),
 	}
 
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, standardClaims)
