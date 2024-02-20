@@ -1,14 +1,16 @@
 import React from "react";
+import LoginScreen from "./LoginScreen";
+import SignupScreen from "./SignupScreen";
 
 interface Props {
-    name: String
+    uid: any
 }
 
-const HomeScreen = ({name}: Props) => {
-    return name ? (
-        <h1>name</h1>
+const HomeScreen = ({ uid }: Props) => {
+    return uid ? (
+        <h1>{uid}</h1>
     ) : (
-        <h1>Тут чета будет</h1>
+        <SignupScreen />
     )
 }
 

@@ -8,7 +8,7 @@ import SignupScreen from './screens/SignupScreen';
 import LoginScreen from './screens/LoginScreen';
 
 function App() {
-  const [name, setName] = useState('')
+  const [uid, setUid] = useState<any>()
 
   useEffect(() => {
     ;(async () => {
@@ -18,17 +18,17 @@ function App() {
       })
 
       const data = await response.json()
-      setName(data.name)
+      setUid(data.uid)
     })()
   })
   
   return (
     <BrowserRouter>
-        <Header />
+        <Header uid={uid} setUid={setUid}/>
         <main>
           <Container>
             <Routes>
-              <Route path='/' element={<HomeScreen name={name} />} />
+              <Route path='/' element={<HomeScreen uid={uid} />} />
               <Route path='/signup' element={<SignupScreen />} />
               <Route path='/login' element={<LoginScreen />} />
             </Routes>

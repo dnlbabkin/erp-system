@@ -2,6 +2,7 @@ import React, { SyntheticEvent, useState } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useNavigate } from "react-router-dom";
+import ModalWindow from "../components/ModalWindow";
 
 const SignupScreen = () => {
     const [name, setName] = useState('')
@@ -43,17 +44,7 @@ const SignupScreen = () => {
     
     return (
         <>
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-            <Modal.Title>Идентификационный id</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Скопируйте: {uid}</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Скопировать
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <ModalWindow show={show} uid={uid} handleClose={handleClose} />
         <FormContainer>
             <Form onSubmit={submitHandler}>
             <Form.Group controlId="name" className="my-3">

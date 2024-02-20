@@ -4,7 +4,7 @@ import FormContainer from "../components/FormContainer";
 import { useNavigate } from "react-router-dom";
 
 const LoginScreen = () => {
-    const [uid, setUid] = useState('')
+    const [uid, setUid] = useState<any>()
     const [password, setPassword] = useState('')
     let navigate = useNavigate();
 
@@ -21,6 +21,8 @@ const LoginScreen = () => {
             })
         })
 
+        console.log(uid)
+
         navigate('/')
     }
 
@@ -32,7 +34,7 @@ const LoginScreen = () => {
                     <Form.Label>Идентификационный id</Form.Label>
                     <Form.Control type='uid' placeholder="Введите ваш идентификационный id"
                         value={uid}
-                        onChange={u => setUid(u.target.value)} />
+                        onChange={u => setUid(parseInt(u.target.value))} />
                 </Form.Group>
 
                 <Form.Group controlId="password" className="my-3">
