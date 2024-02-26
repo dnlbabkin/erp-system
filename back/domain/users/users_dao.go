@@ -10,7 +10,6 @@ var (
 	queryInsertUser                = "INSERT INTO users (uid, name, second_name, third_name, password) VALUES ($1, $2, $3, $4, $5)"
 	queryGetUserByUIDAndByPassword = "SELECT uid, name, second_name, third_name, password FROM users WHERE uid=$1 AND password=$2"
 	queryGetUserByID               = "SELECT uid, name, second_name, third_name FROM users WHERE uid=$1"
-	queryGetUid                    = "SELECT uid FROM users"
 )
 
 func (user *User) Save() *errors.RestErr {

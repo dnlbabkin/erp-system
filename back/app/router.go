@@ -1,6 +1,7 @@
 package app
 
 import (
+	"back/controller/transactions"
 	"back/controller/users"
 	"github.com/gin-contrib/cors"
 	"time"
@@ -23,4 +24,5 @@ func mapUrls() {
 	router.POST("/api/login", users.Login)
 	router.GET("/api/user", users.Get)
 	router.GET("/api/logout", users.Logout)
+	router.POST("/api/transaction/in", transactions.In)
 }
