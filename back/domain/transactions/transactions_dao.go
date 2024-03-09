@@ -4,6 +4,9 @@ import (
 	"back/datasource/postgres/transactions_db"
 	"back/domain/users"
 	"back/utils/errors"
+	"encoding/json"
+	"io"
+	"net/http"
 	"time"
 )
 
@@ -13,7 +16,12 @@ var (
 
 func (transaction *Transaction) Save() *errors.RestErr {
 	client := transactions_db.InitDB()
+
 	var user users.User
+
+	req, _ := http.Get("http://localhost:8080/api/user")
+	data, _ := io.ReadAll(req.Body)
+	_ = json.Unmarshal(data, &user)
 
 	t := time.Now().Format("2006-01-02")
 	transaction.Rate = int(transaction.SumMoney / transaction.Quantity)

@@ -3,8 +3,9 @@ package users_db
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
 	"log"
+
+	_ "github.com/lib/pq"
 )
 
 var (
@@ -12,7 +13,7 @@ var (
 	host     = "localhost"
 	port     = 5432
 	user     = "postgres"
-	dbname   = "postgres"
+	dbname   = "transactions"
 	password = "postgres"
 )
 
