@@ -28,10 +28,10 @@ func GetUser(user users.User) (*users.User, *errors.RestErr) {
 	}
 
 	resultWp := &users.User{
-		UID:       result.UID,
-		Name:      result.Name,
-		LastName:  result.LastName,
-		ThirdName: result.ThirdName,
+		UID:        result.UID,
+		Name:       result.Name,
+		SecondName: result.SecondName,
+		ThirdName:  result.ThirdName,
 	}
 
 	return resultWp, nil

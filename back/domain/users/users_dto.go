@@ -6,19 +6,20 @@ import (
 )
 
 type User struct {
-	UID       int64  `json:"uid"`
-	Name      string `json:"name"`
-	LastName  string `json:"last_name"`
-	ThirdName string `json:"third_name"`
-	Password  string `json:"password"`
+	UID        int64  `json:"uid"`
+	Name       string `json:"name"`
+	SecondName string `json:"second_name"`
+	ThirdName  string `json:"third_name"`
+	Password   string `json:"password"`
+	Token      string `json:"token"`
 }
 
 func (user *User) Validate() *errors.RestErr {
 	user.Name = strings.TrimSpace(user.Name)
-	user.LastName = strings.TrimSpace(user.LastName)
+	user.SecondName = strings.TrimSpace(user.SecondName)
 	user.ThirdName = strings.TrimSpace(user.ThirdName)
 
-	if user.Name == "" && user.LastName == "" && user.ThirdName == "" {
+	if user.Name == "" && user.SecondName == "" && user.ThirdName == "" {
 		return errors.NewBadRequestError("invalid user names")
 	}
 

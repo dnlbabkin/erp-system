@@ -2,7 +2,7 @@ package users
 
 import (
 	"back/domain/users"
-	"back/services"
+	usrs "back/services"
 	"back/utils/errors"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -24,7 +24,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	result, err := services.CreateUser(user)
+	result, err := usrs.CreateUser(user)
 	if err != nil {
 		c.JSON(err.Status, err)
 		return
@@ -42,7 +42,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	result, err := services.GetUser(user)
+	result, err := usrs.GetUser(user)
 	if err != nil {
 		c.JSON(err.Status, err)
 		return
@@ -60,6 +60,8 @@ func Login(c *gin.Context) {
 		c.JSON(err.Status, claimErr)
 		return
 	}
+
+	result.Token = token
 
 	c.SetCookie("jwt", token, 3600, "/", "localhost", false, true)
 
@@ -93,7 +95,7 @@ func Get(c *gin.Context) {
 		return
 	}
 
-	result, restErr := services.GetUserByID(issuer)
+	result, restErr := usrs.GetUserByID(issuer)
 	if restErr != nil {
 		c.JSON(restErr.Status, restErr)
 		return

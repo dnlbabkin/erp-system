@@ -4,7 +4,7 @@ import "time"
 
 type Transaction struct {
 	ID          int64     `json:"id"`
-	UserId      int       `json:"user_id"`
+	UserId      int64     `json:"user_id"`
 	TypeTrans   string    `json:"type"`
 	NameProduct string    `json:"name_product"`
 	Quantity    int64     `json:"quantity"`

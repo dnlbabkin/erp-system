@@ -17,7 +17,7 @@ func (user *User) Save() *errors.RestErr {
 
 	id := uuid.New()
 
-	b, err := client.Query(queryInsertUser, id.ID(), user.Name, user.LastName, user.ThirdName, user.Password)
+	b, err := client.Query(queryInsertUser, id.ID(), user.Name, user.SecondName, user.ThirdName, user.Password)
 	if err != nil {
 		return errors.NewInternalServerError("database error")
 	}
@@ -34,7 +34,7 @@ func (user *User) GetByUIDAndByPassword() *errors.RestErr {
 	client := users_db.InitDB()
 
 	res := client.QueryRow(queryGetUserByUIDAndByPassword, user.UID, user.Password)
-	if err := res.Scan(&user.UID, &user.Name, &user.LastName, &user.ThirdName, &user.Password); err != nil {
+	if err := res.Scan(&user.UID, &user.Name, &user.SecondName, &user.ThirdName, &user.Password); err != nil {
 		return errors.NewInternalServerError("database error")
 	}
 
@@ -47,7 +47,7 @@ func (user *User) GetByID() *errors.RestErr {
 	client := users_db.InitDB()
 
 	res := client.QueryRow(queryGetUserByID, user.UID)
-	if err := res.Scan(&user.UID, &user.Name, &user.LastName, &user.ThirdName); err != nil {
+	if err := res.Scan(&user.UID, &user.Name, &user.SecondName, &user.ThirdName); err != nil {
 		return errors.NewInternalServerError("database error")
 	}
 
