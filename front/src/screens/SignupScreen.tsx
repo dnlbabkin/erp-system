@@ -47,7 +47,7 @@ const SignupScreen = () => {
         <ModalWindow show={show} uid={uid} handleClose={handleClose} />
         <FormContainer>
             <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name" className="my-3">
+                <Form.Group controlId="name" className="my-3">
                     <Form.Label>Имя</Form.Label>
                     <Form.Control type='name' placeholder="Введите ваше имя" 
                     value={name}

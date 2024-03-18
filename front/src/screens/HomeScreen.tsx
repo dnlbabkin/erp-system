@@ -1,6 +1,7 @@
 import React from "react";
 import LoginScreen from "./LoginScreen";
 import SignupScreen from "./SignupScreen";
+import TransactionScreen from "./TransactionScreen";
 
 interface Props {
     uid: any
@@ -8,7 +9,7 @@ interface Props {
 
 const HomeScreen = ({ uid }: Props) => {
     return uid ? (
-        <h1>{uid}</h1>
+        <TransactionScreen />
     ) : (
         <SignupScreen />
     )
