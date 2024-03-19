@@ -21,8 +21,6 @@ const LoginScreen = () => {
             })
         })
 
-        console.log(uid)
-
         navigate('/')
     }
 

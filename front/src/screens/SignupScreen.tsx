@@ -6,7 +6,7 @@ import ModalWindow from "../components/ModalWindow";
 
 const SignupScreen = () => {
     const [name, setName] = useState('')
-    const [lastName, setLastName] = useState('')
+    const [lastName, setSecondName] = useState('')
     const [thirdName, setThirdName] = useState('')
     const [password, setPassword] = useState('')
     const [uid, setUid] = useState<any>()
@@ -38,8 +38,6 @@ const SignupScreen = () => {
 
         const data = await response.json()
         setUid(data.uid)
-        console.log(uid)
-
     }   
     
     return (
@@ -55,11 +53,11 @@ const SignupScreen = () => {
                     />
                 </Form.Group>
 
-                <Form.Group controlId="lastName" className="my-3">
+                <Form.Group controlId="secondName" className="my-3">
                     <Form.Label>Фамилия</Form.Label>
-                    <Form.Control type='lastName' placeholder="Введите вашу фамилию" 
+                    <Form.Control type='secondName' placeholder="Введите вашу фамилию" 
                     value={lastName}
-                    onChange={l => setLastName(l.target.value)}
+                    onChange={l => setSecondName(l.target.value)}
                     />
                 </Form.Group>
 
