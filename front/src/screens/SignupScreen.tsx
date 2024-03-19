@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useState } from "react";
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useNavigate } from "react-router-dom";
 import ModalWindow from "../components/ModalWindow";
